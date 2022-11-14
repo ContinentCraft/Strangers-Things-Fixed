@@ -18,12 +18,12 @@ const Navbar = (props) => {
     Navigate(path)
   }
   function redirectLogout(){
-    let token = loginUser("token")
+    localStorage.removeItem("token");
     let path = '/'
     Navigate(path)
-    localStorage.removeItem("token");
     // localStorage.setItem("token", null)
     password = null
+    username = null
   }
   function redirectAddPost(){
     let path = '/addPost'
@@ -35,9 +35,9 @@ const Navbar = (props) => {
         <input type="text" placeholder="Search"></input>
         <button>Search</button>
         <div>{
-          username === undefined && password === undefined ? 
-          <button onClick={redirect}>Log In</button> : 
-          <button onClick={redirectLogout}>Log Out</button>
+          username ?
+          <button onClick={redirectLogout}>Log Out</button> :
+          <button onClick={redirect}>Log In</button> 
         }</div>
         <button type="button" onClick={redirectSignup}>Sign Up</button>
         <button onClick={redirectAddPost}>Add Post</button>

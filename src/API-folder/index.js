@@ -53,19 +53,35 @@ export async function loginUser(username, password){
   return result
 }
 
-export async function getUserData(){
+export async function getUserData(token){
 let options = {
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer TOKEN_STRING_HERE'
+    'Authorization': `Bearer ${token}`
   }
 }
-  let response = await fetch(`${BASE_URL}/api/${COHORT}/users/me`)
+  let response = await fetch(`${BASE_URL}/api/${COHORT}/users/me`, options)
   let result = await response.json()
 
   return result
 }
 console.log(getUserData())
+
+export async function createPost(postDetails, token){
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type':'application/json',
+      'Authorization':`Bearer ${token}`
+    },
+    body: JSON.stringify({
+      post: postDetails
+    })
+  }
+  const response = await fetch(`${BASE_URL}/api/${COHORT}/posts/`, options)
+  const result = await response.json()
+  return result
+}
 
 export async function updatePost(post, id, token){
   const options = {
@@ -92,6 +108,16 @@ export async function deletePost(id, token){
     },
   }
   const response = await fetch(`${BASE_URL}/api/${COHORT}/posts/${id}`, options)
+  const result = await response.json()
+  return result
+}
+
+export async function getMe(token){
+  const response = await fetch(`${BASE_URL}/api/${COHORT}/users/${username}`, {
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  },})
   const result = await response.json()
   return result
 }

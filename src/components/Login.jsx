@@ -20,8 +20,9 @@ const Login = (props) => {
       event.preventDefault();
       const username = event.target[0].value;
       const password = event.target[1].value;
-      const registeredUser = await loginUser(username, password);
-      const token = registeredUser.token
+      const loggedInUser = await loginUser(username, password);
+      const token = loggedInUser.data.token
+      console.log(loggedInUser, "√")
       localStorage.removeItem("token");
       localStorage.setItem("token", token);
     

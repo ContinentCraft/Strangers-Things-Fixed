@@ -2,13 +2,23 @@ import React, { useEffect, useState } from "react";
 import { Navbar, Posts, Register, Login, WelcomeScreen, SeeDetails, SinglePost, SinglePostView, AddPost} from './';
 import { BrowserRouter as Router,
 Route, Routes, useParams, Switch, Link} from "react-router-dom";
-import { getUrl } from "../API-folder";
+import { getUrl, getUserData } from "../API-folder";
 
 
 const Main = () => {
-
+  const [username, setUsername] = useState('');
   const [posts, setPosts] = useState([]);
 
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    async function fetchUser(){
+      if(token){
+        const userData = await getUserData(token)
+        setUsername(userData.data.username)
+      }
+    }
+    fetchUser()
+  }, [])
 
   useEffect(() => {
     async function fetchPosts() {
@@ -35,7 +45,7 @@ const Main = () => {
 
   return (
     <Router>
-      <Navbar />
+      <Navbar username={username}/>
       <Routes>
         <Route path="/" element={
           <div id="main">
